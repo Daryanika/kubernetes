@@ -100,3 +100,8 @@ kubectl get replicaset -n my-namespace
 kubectl get pods -n my-namespace
 ```
 
+# Примеры выполнения 
+<img width="552" alt="image" src="https://github.com/Daryanika/kubernetes/assets/147329314/15d01666-dbb4-4c64-a473-ce199bf336aa">
+
+
+<img width="538" alt="image" src="https://github.com/Daryanika/kubernetes/assets/147329314/2ba2219f-7a34-43a5-ac39-5fa175e24087">
