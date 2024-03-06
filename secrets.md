@@ -123,7 +123,7 @@ spec:
   - name: mycontainer
     image: nginx
     volumeMounts:                     # точка монтирования тома
-    - name: user-pass-volume          # имя тома, который должен соотвествовать 
+    - name: user-pass-volume          # имя тома, который должен соотвествовать одному из имен, определенных в секции volumes 
       mountPath: "/etc/user-pass"
       readOnly: true
     - name: address-param-volume
@@ -154,3 +154,31 @@ spec:
 **secret** - указывает, что источником данных для тома является секрет
 
 **secretName** - имя секрета
+
+Применение происходит как обычно функцией
+```
+kubectl apply -f pod-using-secrets-volume.yaml
+```
+<img width="633" alt="image" src="https://github.com/Daryanika/kubernetes/assets/147329314/4b578242-aa9a-4df3-8b4c-1f1362f6461b">
+
+Проверить работу манифеста без можно следующим образом:
+```
+kubectl exec pod-using-secrets-env -- printenv | grep USERNAME
+kubectl exec pod-using-secrets-env -- printenv | grep PASSWORD
+```
+<img width="798" alt="image" src="https://github.com/Daryanika/kubernetes/assets/147329314/15d10349-d470-458e-bc82-6bacc92fd379">
+
+**exec** - входим в под
+**printenv** - чтение
+
+Если было монтирование томов, то можно посмотреть директорию, куда все монтировалось, и просто прочитать
+
+```
+kubectl exec pod-using-secrets-volume -- cat /etc/user-pass/username
+kubectl exec pod-using-secrets-volume -- cat /etc/user-pass/password
+```
+<img width="837" alt="image" src="https://github.com/Daryanika/kubernetes/assets/147329314/e0e6b37e-b602-4fde-b91a-426e165a4c33">
+
+Предпочтительнее использовать тома, так как это более безопасно
+
+
