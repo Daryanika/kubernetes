@@ -102,3 +102,28 @@ kubectl get statefulset
 ```
 
 <img width="469" alt="image" src="https://github.com/Daryanika/kubernetes/assets/147329314/a11cf936-8d6f-451f-81e9-ccd4fa9dccc4">
+
+Создание service
+```
+nano postgres-service.yaml
+```
+```
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres-service
+spec:
+  type: ClusterIP
+  ports:
+  - port: 5432
+    targetPort: 5432
+  selector:
+    app: postgres
+```
+```
+kubectl apply -f postgres-service.yaml
+kubectl get service
+```
+<img width="705" alt="image" src="https://github.com/Daryanika/kubernetes/assets/147329314/57f77e00-031b-40a6-b2d0-a6cc27a07ca4">
+
+
