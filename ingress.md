@@ -111,5 +111,64 @@ sudo mkdir -p /mnt/data/mysql
 ```
 kubectl apply -f mysql-pv.yaml
 ```
+Создаем сервис для базы данных 
+```
+nano mysql-service.yaml
+```
+```
+apiVersion: v1
+kind: Service
+metadata:
+  name: mysql-service
+spec:
+  type: ClusterIP
+  ports:
+  - port: 3306
+    targetPort: 3306   # порт пода
+  selector:
+    app: mysql
+```
+```
+kubectl apply -f mysql-service.yaml
+```
+
+Делаем сам ингресс
+```
+minikube addons enable ingress
+```
+Проверить ингресс, которые есть в наличии 
+```
+kubectl get ingress
+```
+Создаем манифест
+```
+nano mysql-ingress.yaml
+```
+```
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: mysql-ingress
+spec:
+  rules:
+  - http:
+      paths:
+      - path: /mysql
+        pathType: Prefix
+        backend:
+          service:
+            name: mysql-service
+            port:
+              number: 3306
+```
+```
+kubectl apply -f mysql-ingress.yaml
+kubectl describe ingress mysql-ingress
+```
+```
+kubectl port-forward svc/mysql-service 3306:3306
+```
+
+
 
 
